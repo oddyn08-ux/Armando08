@@ -9,21 +9,22 @@ import requests
 import pandas as pd
 import ta
 
-# Asegurar logs instantáneos en la consola
+# Logueo en vivo para la consola de Render
 sys.stdout.reconfigure(line_buffering=True)
 
 # ==========================================
 # 1. CONFIGURACIÓN
 # ==========================================
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN", "TU_TOKEN_AQUI")
-CHAT_ID = os.environ.get("6744176738")
-SYMBOL = os.environ.get("SYMBOL", "EURGBP=X")  # Ej: EURUSD=X, BTC-USD, AAPL
-TIMEZONE = ZoneInfo("America/Panama")  # Tu zona horaria local
+# CORREGIDO: Se obtiene la variable desde el entorno o el ID directo como String
+CHAT_ID = os.environ.get("CHAT_ID", "6744176738") 
+SYMBOL = os.environ.get("SYMBOL", "EURGBP=X")
+TIMEZONE = ZoneInfo("America/Panama")
 
 # Parámetros de la Estrategia (RSI + Estocástico)
 RSI_PERIOD = 14
-RSI_OVERSOLD = 35    # Umbral de compra
-RSI_OVERBOUGHT = 65  # Umbral de venta
+RSI_OVERSOLD = 35    
+RSI_OVERBOUGHT = 65  
 
 STOCH_PERIOD = 14
 STOCH_OVERSOLD = 30
@@ -41,7 +42,7 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
         self.wfile.write(b"Bot activo y funcionando.")
 
     def log_message(self, format, *args):
-        return  # Desactivar logs del servidor web
+        return  # Desactivar logs innecesarios del servidor web
 
 def start_health_server():
     port = int(os.environ.get("PORT", 10000))
